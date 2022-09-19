@@ -5,4 +5,12 @@ router.get("", (req: express.Request, res: express.Response) => {
     return res.render("index");
 });
 
+router.get("/login/", (req: express.Request, res: express.Response) => {
+    return res.render("login");
+});
+
+router.get("/register/", (req: express.Request, res: express.Response) => {
+    return res.render("register");
+});
+
 export default router;

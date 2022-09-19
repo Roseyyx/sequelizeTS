@@ -19,10 +19,14 @@ app.set("view engine", "ejs");
 
 // Configure Routes
 import MainRoute from "./routes/MainRoute";
+import UserRoute from "./routes/UserRoute";
+import AdminRoute from "./routes/AdminRoute";
 app.use("/", MainRoute);
+app.use("/auth/", UserRoute);
+app.use("/admin/", AdminRoute);
 
 db.sequelize.sync().then(() => {
     app.listen(port, () => {
-        console.log(`Listening at http://localhost:${port}`);
+        console.log(`Listening at *:${port}`);
     });
 });
