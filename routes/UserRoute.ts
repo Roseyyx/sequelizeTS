@@ -41,7 +41,7 @@ router.post("/register", async (req: express.Request, res: express.Response) => 
     // update invite
     await db.Invites.update({isUsed: true, usedBy: username}, {where: {code: req.body.invite}});
 
-    return res.status(200).json({success: "Account created"});
+    return res.redirect("/");
 });
 
 router.post("/login", async (req: express.Request, res: express.Response) => {

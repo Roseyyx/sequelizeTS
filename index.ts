@@ -3,9 +3,6 @@ const app = express();
 const port = 3000;
 import db from "./models";
 
-// Middlewares
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
 
 // View Engine
 app.use(express.static("public"));
@@ -16,6 +13,12 @@ app.use('/img', express.static(__dirname + "public/img"));
 // Set View Engine
 app.set("views", "./views");
 app.set("view engine", "ejs");
+
+// Middlewares
+import sessionMiddleware from "./middlewares/session.middleware";
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use(sessionMiddleware);
 
 // Configure Routes
 import MainRoute from "./routes/MainRoute";
