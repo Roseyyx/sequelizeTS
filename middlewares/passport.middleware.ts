@@ -17,7 +17,7 @@ passport.use(
                 const simpleCrypto = new SimpleCrypto(password);
                 const decryptedPassword = simpleCrypto.decrypt(user.password);
                 // check if password is correct
-                if (decryptedPassword !== password) done(null,user) 
+                if (decryptedPassword === password) done(null,user) 
                 else done(null,false);
             } catch (error) {
                 console.log(error);
@@ -25,3 +25,18 @@ passport.use(
         }
     })
 )
+
+passport.serializeUser((user: any, done) => {
+    done(null, user.id);
+})
+
+passport.deserializeUser(async (id: any, done) => {
+    try {
+        const user = await db.User.findOne({where: {id: id}});
+        done(null, user);
+    } catch (error) {
+        done(error);
+    }
+});
+
+export default passport

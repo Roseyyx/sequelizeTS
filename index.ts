@@ -16,9 +16,14 @@ app.set("view engine", "ejs");
 
 // Middlewares
 import sessionMiddleware from "./middlewares/session.middleware";
+import passportMiddleware from "./middlewares/passport.middleware";
+import cookieParser from "cookie-parser";
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(sessionMiddleware);
+app.use(passportMiddleware.initialize());
+app.use(passportMiddleware.session());
+app.use(cookieParser());
 
 // Configure Routes
 import MainRoute from "./routes/MainRoute";

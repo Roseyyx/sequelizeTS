@@ -1,15 +1,17 @@
 import express from "express";
 const router = express.Router();
 import db from "../models"
+import {} from "../types/admin"
 
-router.get("/CreateInvite", (req: express.Request, res: express.Response) => {
-    const invite = db.Invites.create({
+router.get("/CreateInvite", async (req: express.Request, res: express.Response) => {
+    if (!req.isAuthenticated() || !req.user?.isAdmin) { res.cookie("notification", "You are not allowed to access this page!"); return res.redirect("/")};
+    const invite = await db.Invites.create({
         code: "arty_" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-        createdBy: "admin",
+        createdBy: null,
         usedBy: null,
         isUsed: false,
     });
-    return res.status(200).json({success: "Invite created: " + invite.code});
+    return res.cookie("notification", "Invite code: " + invite.code).redirect("/");
 });
 
 export default router;

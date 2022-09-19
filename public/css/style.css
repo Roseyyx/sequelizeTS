@@ -90,7 +90,6 @@ a {
 .fade-out h3{
     font-size: 14px;
     margin-left: 12px;
-    animation: fadeOutFromIn 2s ease-out;
 }
 
 /* Alert */

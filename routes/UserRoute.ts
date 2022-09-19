@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import db from "../models"
 import SimpleCrypto from "simple-crypto-js";
+import passport from "passport";
 
 
 router.post("/register", async (req: express.Request, res: express.Response) => {
@@ -45,29 +46,15 @@ router.post("/register", async (req: express.Request, res: express.Response) => 
 });
 
 router.post("/login", async (req: express.Request, res: express.Response) => {
-    if (!req.body.username || !req.body.password) 
-        return res.status(400).json({error: "No data provided"});
-
-    // sanitize data
-    const username = req.body.username.replace(/[^a-zA-Z0-9]/g, "");
-    const password = req.body.password.replace(/[^a-zA-Z0-9]/g, "");
-
-    // check if user exists
-    const user = await db.User.findOne({where: {username: username}});
-    if (!user) return res.status(400).json({error: "User does not exist"});
-
-    // decrypt password
-    try {
-        const simpleCrypto = new SimpleCrypto(password);
-        const decryptedPassword = simpleCrypto.decrypt(user.password);
-        // check if password is correct
-        if (decryptedPassword !== password) return res.status(400).json({error: "Invalid password"});
-
-    } catch (error) {
-        return res.status(400).json({error: "Invalid password"});
-    }
-
-    return res.status(200).json({success: "Logged in"});
+    passport.authenticate("local", (err, user, info) => {
+        req.login(user, (err) => {
+            if (!user) return res.status(401).json({error: "Invalid password"});
+            req.logIn(user, (err) => {
+                if (err) return res.status(401).json({error: "Invalid password"});
+                res.status(201).json({message: user});
+            });
+        });
+    })(req,res);
 });
 
 export default router;
