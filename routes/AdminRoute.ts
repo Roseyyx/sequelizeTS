@@ -11,7 +11,10 @@ router.get("/CreateInvite", async (req: express.Request, res: express.Response) 
         usedBy: null,
         isUsed: false,
     });
-    return res.cookie("notification", "Invite code: " + invite.code).redirect("/");
+
+    res.cookie("clipboard", invite.code);
+
+    return res.cookie("notification", "Invite code: " + invite.code).redirect("/dashboard");
 });
 
 export default router;
