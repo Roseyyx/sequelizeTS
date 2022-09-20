@@ -37,6 +37,7 @@ router.post("/register", async (req: express.Request, res: express.Response) => 
         email: req.body.email,
         password: encryptedPassword,
         invite: req.body.invite,
+        invitedBy: invite.createdBy,
     });
 
     // update invite
@@ -51,7 +52,8 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
             if (!user) return res.status(401).json({error: "Invalid password"});
             req.logIn(user, (err) => {
                 if (err) return res.status(401).json({error: "Invalid password"});
-                res.status(201).json({message: user});
+                res.cookie("notification", "Logged in as: " + user.username);
+                return res.redirect("/");
             });
         });
     })(req,res);

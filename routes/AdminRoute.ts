@@ -8,7 +8,7 @@ router.post("/CreateInvite", async (req: express.Request, res: express.Response)
     if (req.body.amount){
         for (let i = 0; i < req.body.amount; i++) {
             db.Invites.create({
-                code: "arty_" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+                code: "arty_" + Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12),
                 createdBy: req.user.username,
                 usedBy: null,
                 isUsed: false,
@@ -17,7 +17,7 @@ router.post("/CreateInvite", async (req: express.Request, res: express.Response)
         return res.cookie("notification", "Generated: " + req.body.amount + " invites").redirect("/dashboard");
     } else {
         const invite = await db.Invites.create({
-            code: "arty_" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+            code: "arty_" + Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12),
             createdBy: req.user.username,
             usedBy: null,
             isUsed: false,

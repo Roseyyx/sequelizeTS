@@ -10,6 +10,7 @@ interface UserAttributes{
   email: string;
   password: string;
   isAdmin: boolean;
+  invitedBy: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -24,6 +25,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     email!: string;
     password!: string;
     isAdmin!: boolean;
+    invitedBy!: string;
     static associate(models: any) {
       // define association here
       User.hasOne(models.Invites, {
@@ -31,6 +33,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
       });
       User.hasOne(models.Invites, {
         foreignKey: 'usedBy',
+      });
+      User.belongsTo(models.Invites, {
+        foreignKey: 'invitedBy',
       });
     }
   }
@@ -60,6 +65,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
+    },
+    invitedBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      references: {
+        model: 'Invites',
+        key: 'createdBy',
+      },
     },
   }, {
     sequelize,
