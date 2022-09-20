@@ -33,7 +33,10 @@
     <section class="main">
         <div class="container">
             <h1>arty<b>♡</b></h1>
-            <a href="/admin/createInvite"><button id="loginKnop" class="loginknop">Create Invite</button></a>
+            <form action="/admin/createInvite" method="post">
+                <input type="number" name="amount" placeholder="amount">
+                <button type="submit" id="loginKnop" class="loginknop">Create Invite</button>
+            </form>
             <% if (typeof(clipboard) != "undefined"){ %>
 
                 <button id="copyButton"><input id="clippy" value="<%= clipboard %>"> Copy Invite Code</button>
