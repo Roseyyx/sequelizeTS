@@ -111,7 +111,12 @@ a {
 }
 
 .container h1 b{
-    color: var(--pink);
+    color: none;
+    stroke: var(--pink);
+    animation-name: glow;
+    animation-duration: 0.8s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
 }
 
 .container form{
@@ -172,5 +177,23 @@ a {
     100% {
         display: none;
         opacity: 0;
+    }
+}
+
+@keyframes glow {
+    0%{
+        filter: drop-shadow(0 0 1px var(--pink))
+        drop-shadow(0px 0px 3px var(--pink))
+        drop-shadow(0px 0px 10px #ff80b3)
+        drop-shadow(0px 0px 30px #ff4d94)
+        drop-shadow(0px 0px 50px #ff0066);
+    }
+
+    100%{
+        filter: drop-shadow(0 0 3px var(--pink))
+        drop-shadow(0px 0px 5px var(--pink))
+        drop-shadow(0px 0px 15px #ff80b3)
+        drop-shadow(0px 0px 40px #ff4d94)
+        drop-shadow(0px 0px 60px #ff0066);
     }
 }
