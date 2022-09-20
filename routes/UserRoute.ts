@@ -4,6 +4,9 @@ import db from "../models"
 import SimpleCrypto from "simple-crypto-js";
 import passport from "passport";
 
+// TODO: Replace res.status to res.cookie("notification", "message") and res.redirect("/")
+// TODO: Logout route
+// TODO: Add a route to change password
 
 router.post("/register", async (req: express.Request, res: express.Response) => {
     if (!req.body.username || !req.body.password || !req.body.email || !req.body.invite) 
@@ -43,7 +46,7 @@ router.post("/register", async (req: express.Request, res: express.Response) => 
     // update invite
     await db.Invites.update({isUsed: true, usedBy: username}, {where: {code: req.body.invite}});
 
-    return res.redirect("/");
+    return res.redirect("/login/");
 });
 
 router.post("/login", async (req: express.Request, res: express.Response) => {
@@ -52,8 +55,13 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
             if (!user) return res.status(401).json({error: "Invalid password"});
             req.logIn(user, (err) => {
                 if (err) return res.status(401).json({error: "Invalid password"});
-                res.cookie("notification", "Logged in as: " + user.username);
-                return res.redirect("/");
+                if (user.subEndDate == null || new Date(user.subEndDate) < new Date()){
+                    res.cookie("notification", "Welcome: " + user.username + " your subscription has expired!");
+                    return res.redirect("/dashboard/");
+                } else {
+                    res.cookie("notification", "Welcome: " + user.username);
+                    return res.redirect("/forums/");
+                }
             });
         });
     })(req,res);

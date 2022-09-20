@@ -143,6 +143,40 @@ a {
     color: var(--pink);
 }
 
+/* navbar */
+
+.nav{
+    left: 0;
+    top: 0;
+    width: 100%;
+    position: fixed;
+    padding: 0 2em;
+    background-color: rgba(0, 0, 0, 1);
+    z-index: 5;
+    list-style: none;
+}
+
+.wrapper{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    min-height: 60px;
+    justify-content: flex-end;
+}
+
+.navlink{
+    color: white;
+    margin-right: 3em;
+    transition: all .5s;
+    text-decoration: none;
+}
+
+.navlink:hover{
+    color: var(--pink);
+}
+
+/* navbar */
+
 /* Keyframes */
 @keyframes anim1 {
     from{

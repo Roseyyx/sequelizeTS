@@ -33,4 +33,10 @@ router.get("/register/", (req: express.Request, res: express.Response) => {
     return res.render("register");
 });
 
+router.get("/forums/", (req: express.Request, res: express.Response) => {
+    if (!req.isAuthenticated()) { res.cookie("notification", "You do not have permission to view these forums.") ; return res.redirect("/login");}
+    if (!req.user.subEndDate || new Date(req.user.subEndDate) < new Date()) { res.cookie("notification", "Your subscription has expired!") ; return res.redirect("/dashboard");}
+    return res.render("forums");
+});
+
 export default router;

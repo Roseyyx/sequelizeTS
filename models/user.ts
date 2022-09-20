@@ -11,6 +11,8 @@ interface UserAttributes{
   password: string;
   isAdmin: boolean;
   invitedBy: string;
+  subBeginDate: Date;
+  subEndDate: Date;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -26,6 +28,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     password!: string;
     isAdmin!: boolean;
     invitedBy!: string;
+    subBeginDate!: Date;
+    subEndDate!: Date;
     static associate(models: any) {
       // define association here
       User.hasOne(models.Invites, {
@@ -73,6 +77,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
         model: 'Invites',
         key: 'createdBy',
       },
+    },
+    subBeginDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    subEndDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   }, {
     sequelize,

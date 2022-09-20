@@ -5,6 +5,9 @@ declare global {
       interface User {
         isAdmin: boolean;
         username: string;
+        id: number;
+        invitedBy: string;
+        subEndDate: Date;
       }
     }
   }
